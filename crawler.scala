@@ -147,7 +147,7 @@ object Appp  {
         val major_url = "http://habrahabr.ru/"
         val pages = grabHost(major_url, 2)
         //var pages = DeSerialisePages("index")
-        SerialisePages("index", pages)
+        //SerialisePages("index", pages)
         println("Index size: " + pages.size)
         println("Ready to search")
         var ok = true
