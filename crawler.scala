@@ -38,7 +38,6 @@ object Appp  {
             }
 
             val raw_page = scala.io.Source.fromInputStream(openResourceInputStream(url)).getLines().mkString("\n")//getPage()
-            //println(raw_page)
             val href_matcher = hrefPattern.matcher(raw_page)
             val image_matcher = imagePattern.matcher(raw_page)
 
@@ -66,8 +65,6 @@ object Appp  {
             }
             val hrefs = getHref().filter((x : String) => !(x.endsWith(".jpg") || x.endsWith(".ico") || x.endsWith(".png") || x.endsWith(".gif")))
             val images = getImages()
-            //val images = List[String]()
-            //println(keyWords.size)
             StoredPage(url, "", keyWords, hrefs, images, md5(raw_page))
         }
     }
@@ -148,12 +145,12 @@ object Appp  {
         }
         //val major_url = "http://habrahabr.ru/"
         val major_url = "http://habrahabr.ru/"
-        val pages = grabHost(major_url, 1)
+        val pages = grabHost(major_url, 2)
         //var pages = DeSerialisePages("index")
         SerialisePages("index", pages)
         println("Index size: " + pages.size)
         println("Ready to search")
-        /*var ok = true
+        var ok = true
         while( ok ) {
             println("Type query:")
             val ln = readLine()
@@ -162,7 +159,7 @@ object Appp  {
                 search(ln, pages).foreach((x:StoredPage) => println(x.URL))
 
             }
-        }*/
+        }
         search("java", pages).foreach((x:StoredPage) => println(x.URL))
     }
 }
