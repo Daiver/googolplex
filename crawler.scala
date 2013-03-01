@@ -37,7 +37,8 @@ object Appp  {
                 }
             }
 
-            val raw_page = getPage()
+            val raw_page = scala.io.Source.fromInputStream(openResourceInputStream(url)).getLines().mkString("\n")//getPage()
+            //println(raw_page)
             val href_matcher = hrefPattern.matcher(raw_page)
             val image_matcher = imagePattern.matcher(raw_page)
 
@@ -64,14 +65,15 @@ object Appp  {
                 keyWords(word) += 1
             }
             val hrefs = getHref().filter((x : String) => !(x.endsWith(".jpg") || x.endsWith(".ico") || x.endsWith(".png") || x.endsWith(".gif")))
-            //val images = getImages()
-            val images = List[String]()
+            val images = getImages()
+            //val images = List[String]()
+            //println(keyWords.size)
             StoredPage(url, "", keyWords, hrefs, images, md5(raw_page))
         }
     }
 
     def search(query : String, pages : scala.collection.mutable.HashMap[String, StoredPage]) = {
-        val keyWords = query.split(" ")
+        val keyWords = query.toLowerCase.split(" ")
         def filterFunc(page : StoredPage, words : Array[String]) : Boolean = {
             if (words.length == 0) {
                 return true
@@ -151,15 +153,16 @@ object Appp  {
         SerialisePages("index", pages)
         println("Index size: " + pages.size)
         println("Ready to search")
-        var ok = true
+        /*var ok = true
         while( ok ) {
+            println("Type query:")
             val ln = readLine()
             ok = ln != null
             if( ok ) {
                 search(ln, pages).foreach((x:StoredPage) => println(x.URL))
 
             }
-        }
-        //search(args(0), pages).foreach((x:StoredPage) => println(x.URL))
+        }*/
+        search("java", pages).foreach((x:StoredPage) => println(x.URL))
     }
 }
