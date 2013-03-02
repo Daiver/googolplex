@@ -78,7 +78,7 @@ object Appp  {
             }
         }
 
-        val keyWords = tokenizer_toList() //query.toLowerCase.split(" ")
+        val keyWords = tokenizer_toList() 
         def filterFunc(page : StoredPage, words: List[String]) : Boolean = {
             if (words.length == 0) {
                 return true
@@ -149,7 +149,7 @@ object Appp  {
             pages
         }
         val major_url = "http://habrahabr.ru/"
-        val pages = grabHost(major_url, 1)
+        val pages = grabHost(major_url, 2)
         println("Index size: " + pages.size)
         println("Ready to search")
         var ok = true
