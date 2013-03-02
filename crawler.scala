@@ -14,6 +14,11 @@ object Appp  {
     def md5(s: String) = {
         MessageDigest.getInstance("MD5").digest(s.getBytes)
     }
+
+    def get_splited_page(s: String) = {
+        new java.util.StringTokenizer(s.toLowerCase, " \n,./\\+-=()<>!@#$%^&*|", true)
+    }
+
     class Crawler {
         def openResourceInputStream(url : String) = {
             val connection = new URL(url).openConnection()
@@ -28,15 +33,6 @@ object Appp  {
 
         def grabUrl(url : String) = {
             val pageScanner = new Scanner(openResourceInputStream(url))
-            def getPage(res : String = "") : String = {
-                if (pageScanner.hasNextLine) {
-                    getPage(res + pageScanner.nextLine())
-                }
-                else {
-                    res
-                }
-            }
-
             val raw_page = scala.io.Source.fromInputStream(openResourceInputStream(url)).getLines().mkString("\n")//getPage()
             val href_matcher = hrefPattern.matcher(raw_page)
             val image_matcher = imagePattern.matcher(raw_page)
@@ -59,7 +55,10 @@ object Appp  {
             }
             
             var keyWords = new scala.collection.mutable.HashMap[String, Int]()//TODO: FIX IT
-            for(word <- raw_page.toLowerCase.split(" ")) {
+            
+            val tokens = get_splited_page(raw_page)
+            while (tokens.hasMoreTokens()) {
+                val word = tokens.nextToken()
                 if (!keyWords.contains(word)) keyWords.put(word, 0)
                 keyWords(word) += 1
             }
@@ -70,8 +69,17 @@ object Appp  {
     }
 
     def search(query : String, pages : scala.collection.mutable.HashMap[String, StoredPage]) = {
-        val keyWords = query.toLowerCase.split(" ")
-        def filterFunc(page : StoredPage, words : Array[String]) : Boolean = {
+        val tokenizer = get_splited_page(query)
+        def tokenizer_toList(res: List[String] = List()): List[String] = {
+            if (tokenizer.hasMoreTokens()) {
+                tokenizer_toList(res :+ tokenizer.nextToken())
+            } else {
+                res
+            }
+        }
+
+        val keyWords = tokenizer_toList() //query.toLowerCase.split(" ")
+        def filterFunc(page : StoredPage, words: List[String]) : Boolean = {
             if (words.length == 0) {
                 return true
             }
@@ -107,12 +115,9 @@ object Appp  {
     }
 
     def main(args : Array[String]) = {
-        //println("Searching with " + args(0))
         def grabHost(major_url : String, max_depth : Int = 1) = {
             val crawler = new Crawler()
-            //var pages = List[StoredPage]()
             var pages = scala.collection.mutable.HashMap[String, StoredPage]()
-            //var pages = DeSerialisePages("index")
             println("Start grabing " + major_url)
             def walker(url : String, depth : Int) : Unit = {
                 if (!pages.contains(url)) {
@@ -143,11 +148,8 @@ object Appp  {
             walker(major_url, 0)
             pages
         }
-        //val major_url = "http://habrahabr.ru/"
         val major_url = "http://habrahabr.ru/"
-        val pages = grabHost(major_url, 2)
-        //var pages = DeSerialisePages("index")
-        //SerialisePages("index", pages)
+        val pages = grabHost(major_url, 1)
         println("Index size: " + pages.size)
         println("Ready to search")
         var ok = true
@@ -160,6 +162,6 @@ object Appp  {
 
             }
         }
-        search("java", pages).foreach((x:StoredPage) => println(x.URL))
+        //search("java", pages).foreach((x:StoredPage) => println(x.URL))
     }
 }
