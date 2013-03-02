@@ -1,9 +1,7 @@
 import java.net.URL
 import java.util.regex.Pattern
-import java.util.Scanner
 import java.security.MessageDigest
 import scala.util.Marshal
-import scala.collection.immutable
 import java.io._
 
 object Main  {
@@ -44,7 +42,7 @@ object Main  {
       }
       def getImages(res : List[String] = List[String]()) : List[String] = {
         if (image_matcher.find()) {
-          getHref(res :+ image_matcher.group(2).toString())
+          getHref(res :+ image_matcher.group(2))
         }
         else {
           res
