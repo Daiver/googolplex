@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="261862b2-95eb-4a12-b997-206f1ab95143" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Crawler.scala" afterPath="$PROJECT_DIR$/src/Crawler.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.scala" afterPath="$PROJECT_DIR$/src/Main.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SearchEngine.scala" afterPath="$PROJECT_DIR$/src/SearchEngine.scala" />
     </list>
     <ignored path="googolplex.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362219142714" ignored="false" />
-    <file path="/Main.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362221050388" ignored="false" />
+    <file path="/Main.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362221312254" ignored="false" />
     <file path="/Crawler.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362220368682" ignored="false" />
     <file path="/a.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362220883993" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -72,7 +73,7 @@
       <file leaf-file-name="Main.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="18" selection-start="766" selection-end="766" vertical-scroll-proportion="-1.6780822">
+            <state line="21" column="20" selection-start="595" selection-end="595" vertical-scroll-proportion="0.6164383">
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -83,8 +84,10 @@
       <file leaf-file-name="SearchEngine.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SearchEngine.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="6" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="58" column="0" selection-start="1960" selection-end="1960" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,7 +95,7 @@
       <file leaf-file-name="Crawler.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Crawler.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="30" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0">
+            <state line="15" column="28" selection-start="467" selection-end="467" vertical-scroll-proportion="-5.96">
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -118,6 +121,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/src/SearchEngine.scala" />
         <option value="$PROJECT_DIR$/src/Crawler.scala" />
         <option value="$PROJECT_DIR$/src/Main.scala" />
       </list>
@@ -457,7 +461,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Crawler.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="30" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0">
+        <state line="15" column="28" selection-start="467" selection-end="467" vertical-scroll-proportion="-5.96">
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -466,14 +470,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SearchEngine.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="6" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="58" column="0" selection-start="1960" selection-end="1960" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="18" selection-start="766" selection-end="766" vertical-scroll-proportion="-1.6780822">
+        <state line="21" column="20" selection-start="595" selection-end="595" vertical-scroll-proportion="0.6164383">
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
