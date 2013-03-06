@@ -13,29 +13,37 @@ object Main {
     def redis_tst() = {
         //val r = new RedisClient("localhost", 6379)
         val r = Redis()
-        //println(r.set("key", B("KILL THEM ALL")))
+        //println(r.set("key 2", B("KILL THEM ALL")))
+        //println(r.set("pages:globalindex", B(0)))
         //println(r.set("key2", B(1024)))
 
-        println(S(r.get("key")).get)
+        //println(r.flushdb()) //DO NOT USE THIS!!!!
+        val index = S(r.get("pages:globalindex"))
+        println(index.getClass.getName)
+        //r.incr("pages:globalindex")
+        //println(I(r.get("pages:globalindex")))
         //println()
         for(x <-  r.keys("*"))
-            println(S(r.get(x)))
+            println(x)
 
         //println(rcl.keys("*").get)
     }
 
     def main(args: Array[String]) = {
-        redis_tst()
+        //redis_tst()
 
-        /*val crawler = new Crawler()
+        val crawler = new Crawler()
         val major_url = "http://habrahabr.ru/"
-        val search_depth = 1
-        val pages = crawler.grabHost(major_url, search_depth)
+        val search_depth = 2
+        val dbc = Redis("localhost", 6379)
+        val pages = crawler.grabHost(major_url, dbc, search_depth)
         println("Index size: " + pages.size)
         println("Ready to search")
         val se = new SearchEngine()
         var ok = true
-        while (ok) Redis("localhost", 6379){
+
+        pages(major_url).saveIntoDB(dbc)
+        while (ok) {
             println("Type query:")
             val ln = {
                 readLine()
@@ -45,7 +53,7 @@ object Main {
                 se.search(ln, pages).foreach((x: StoredPage) => println(x.URL))
 
             }
-        }*/
+        }
         //search("java", pages).foreach((x:StoredPage) => println(x.URL))
     }
 }

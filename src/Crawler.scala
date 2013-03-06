@@ -1,6 +1,9 @@
 import java.net.URL
 import java.security.MessageDigest
 import java.util.regex.Pattern
+import java.util.Date
+import ru.kolyvan.redis.Conv._
+import ru.kolyvan.redis.Redis
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +13,30 @@ import java.util.regex.Pattern
  * To change this template use File | Settings | File Templates.
  */
 
-case class StoredPage(URL: String, page_html: String, keyWords: scala.collection.mutable.HashMap[String, Int], links: List[String], images: List[String], hash: Array[Byte])
+case class StoredPage(URL: String,
+                      page_html: String,
+                      keyWords: scala.collection.mutable.HashMap[String, Int],
+                      links: List[String],
+                      images: List[String],
+                      hash: Array[Byte],
+                      grab_date: Date) {
+
+    def saveIntoDB(dbclient: Redis) = {
+        val already_exists = dbclient.keys("pages:*:URL:" + this.URL)
+        val index = if (already_exists.length > 0) already_exists(0).split(":")(1)
+                    else {
+            val res = S(dbclient.get("pages:globalindex")).get
+            dbclient.incr("pages:globalindex")
+            res
+        }
+        println("index:" + index)
+        val page_key = "pages:" + index + ":"
+        println(page_key + "URL:" + this.URL)
+        dbclient.set(page_key + "URL:" + this.URL, B(this.grab_date.toString))
+        this.keyWords.foreach((x: (String, Int)) => dbclient.set(page_key + "KW:" + x._1, B(x._2)))
+    }
+}
+
 
 object CrawlerSupport {
     def get_splited_page(s: String) = {
@@ -67,10 +93,10 @@ class Crawler {
         }
         val hrefs = getHref().filter((x: String) => !(x.endsWith(".jpg") || x.endsWith(".ico") || x.endsWith(".png") || x.endsWith(".gif")))
         val images = getImages()
-        StoredPage(url, "", keyWords, hrefs, images, CrawlerSupport.md5(raw_page))
+        StoredPage(url, "", keyWords, hrefs, images, CrawlerSupport.md5(raw_page), new Date)
     }
 
-    def grabHost(major_url: String, max_depth: Int = 1) = {
+    def grabHost(major_url: String, dbclient: Redis, max_depth: Int = 1) = {
         var pages = scala.collection.mutable.HashMap[String, StoredPage]()
         def walker(url: String, depth: Int): Unit = {
             if (!pages.contains(url)) {
