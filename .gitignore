@@ -16,3 +16,4 @@ project/plugins/project/
 *.*~
 bin/
 out/
+libraries/*
