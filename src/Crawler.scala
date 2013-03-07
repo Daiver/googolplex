@@ -102,9 +102,10 @@ class Crawler {
             if (!pages.contains(url)) {
                 val page = grabUrl(url)
                 println(pages.size + " walking page url " + page.URL + "  num of hrefs " + page.links.length)
+                page.saveIntoDB(dbclient)
                 pages.put(url, page)
                 if (depth < max_depth)
-                    page.links.filter(_.startsWith(major_url)).par.foreach((x: String) => {
+                    page.links.filter(_.startsWith(major_url)).foreach((x: String) => {
                         try {
                             walker(x, depth + 1)
                         } catch {

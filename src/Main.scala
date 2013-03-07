@@ -29,12 +29,14 @@ object Main {
         //println(rcl.keys("*").get)
     }
 
+    def
+
     def main(args: Array[String]) = {
         //redis_tst()
 
         val crawler = new Crawler()
         val major_url = "http://habrahabr.ru/"
-        val search_depth = 2
+        val search_depth = 3
         val dbc = Redis("localhost", 6379)
         val pages = crawler.grabHost(major_url, dbc, search_depth)
         println("Index size: " + pages.size)
@@ -42,7 +44,7 @@ object Main {
         val se = new SearchEngine()
         var ok = true
 
-        pages(major_url).saveIntoDB(dbc)
+        //pages(major_url).saveIntoDB(dbc)
         while (ok) {
             println("Type query:")
             val ln = {
