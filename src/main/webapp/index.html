@@ -1,6 +1,11 @@
-<lift:surround with="default" at="content">
-<!-- <h1>Googol<span class="red">Plex</span></h1>-->
-  <form name="search">
-    <input type="text" class="searchelt searchbox"/><input type="submit" class="searchelt searchbutton" value="↪"/>
-  </form>
-</lift:surround>
+<div class="lift:surround?with=default;at=content content-wrapper">
+    <head_merge>
+        <title>GoogolPlex</title>
+        <link rel="stylesheet" type="text/css" href="style/index-style.css" />
+    </head_merge>
+    <form name="search" method="GET" action="">
+        <input type="text" class="searchelt searchbox" /><input type="submit" class="searchelt searchbutton"
+                                                               value="↪" />
+
+    </form>
+</div>
