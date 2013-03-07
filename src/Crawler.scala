@@ -33,14 +33,17 @@ case class StoredPage(URL: String,
         val page_key = "pages:" + index + ":"
         println(page_key + "URL:" + this.URL)
         dbclient.set(page_key + "URL:" + this.URL, B(this.grab_date.toString))
-        this.keyWords.foreach((x: (String, Int)) => dbclient.set(page_key + "KW:" + x._1, B(x._2)))
+        this.keyWords.foreach((x: (String, Int)) =>
+            dbclient.zadd("pages:KW:" + x._1, x._2, B(this.URL))
+            //dbclient.set(page_key + "KW:" + x._1, B(x._2))
+        )
     }
 }
 
 
 object CrawlerSupport {
     def get_splited_page(s: String) = {
-        new java.util.StringTokenizer(s.toLowerCase, " \n,./\\+-=()<>!@#$%^&*|", true)
+        new java.util.StringTokenizer(s.toLowerCase, " \n,.:;\"'/\\+-=!@#$%^&*|_()<>{}[]~`\t", true)
     }
 
     def md5(s: String) = {
@@ -97,13 +100,14 @@ class Crawler {
     }
 
     def grabHost(major_url: String, dbclient: Redis, max_depth: Int = 1) = {
-        var pages = scala.collection.mutable.HashMap[String, StoredPage]()
+        //var pages = scala.collection.mutable.HashMap[String, StoredPage]()
         def walker(url: String, depth: Int): Unit = {
-            if (!pages.contains(url)) {
+            //if (!pages.contains(url)) {
+            if (dbclient.keys("pages:*:URL:" + url).length == 0) {
                 val page = grabUrl(url)
-                println(pages.size + " walking page url " + page.URL + "  num of hrefs " + page.links.length)
+                println("walking page url " + page.URL + "  num of hrefs " + page.links.length)
                 page.saveIntoDB(dbclient)
-                pages.put(url, page)
+                //pages.put(url, page)
                 if (depth < max_depth)
                     page.links.filter(_.startsWith(major_url)).foreach((x: String) => {
                         try {
@@ -117,6 +121,6 @@ class Crawler {
             }
         }
         walker(major_url, 0)
-        pages
+        //pages
     }
 }

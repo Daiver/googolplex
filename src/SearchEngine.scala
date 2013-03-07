@@ -1,4 +1,8 @@
 import java.io.{FileInputStream, FileOutputStream}
+import ru.kolyvan.redis
+import ru.kolyvan.redis.Redis
+import ru.kolyvan.redis.Conv._
+
 import util.Marshal
 
 /**
@@ -9,7 +13,30 @@ import util.Marshal
  * To change this template use File | Settings | File Templates.
  */
 class SearchEngine {
-    def search(query: String, pages: scala.collection.mutable.HashMap[String, StoredPage]) = {
+    def search(query: String, dbclient: Redis) = {
+        val tokenizer = CrawlerSupport.get_splited_page(query)
+        def tokenizer_toList(res: List[String] = List()): List[String] = {
+            if (tokenizer.hasMoreTokens()) {
+                tokenizer_toList(res :+ tokenizer.nextToken())
+            } else {
+                res
+            }
+        }
+
+        val keyWords = tokenizer_toList()
+        var results = new scala.collection.mutable.LinkedHashMap[String, Float]()
+        keyWords.foreach((x: String) => {
+            dbclient.zrange2("pages:KW:" + x, 0, -1).map(
+                (data: (redis.Bytes, Float)) => (S(data._1), data._2)).foreach{
+                    ((d: (String, Float)) => if (results.contains(d._1)) results(d._1) += d._2
+                    else results(d._1) = d._2)
+                }
+
+            //println(dbres)
+        })
+        results.toList.sortBy(_._2).map{_._1}
+    }
+    /*def search(query: String, pages: scala.collection.mutable.HashMap[String, StoredPage]) = {
         val tokenizer = CrawlerSupport.get_splited_page(query)
         def tokenizer_toList(res: List[String] = List()): List[String] = {
             if (tokenizer.hasMoreTokens()) {
@@ -38,7 +65,7 @@ class SearchEngine {
         listtosort sortWith {
             freqRange(_) > freqRange(_)
         }
-    }
+    }*/
 
     def SerialisePages(fname: String, foo: scala.collection.mutable.HashMap[String, StoredPage]) = {
         val out = new FileOutputStream(fname)

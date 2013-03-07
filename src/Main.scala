@@ -18,9 +18,11 @@ object Main {
         //println(r.set("key2", B(1024)))
 
         //println(r.flushdb()) //DO NOT USE THIS!!!!
+        //println("before print")
+
         val index = S(r.get("pages:globalindex"))
-        println(index.getClass.getName)
-        //r.incr("pages:globalindex")
+        println(index)
+
         //println(I(r.get("pages:globalindex")))
         //println()
         for(x <-  r.keys("*"))
@@ -29,17 +31,25 @@ object Main {
         //println(rcl.keys("*").get)
     }
 
-    def
+    def reset_db(dbclient: Redis) = {
+        dbclient.flushdb()
+        dbclient.set("pages:globalindex", B(0))
+        dbclient.incr("pages:globalindex")
+    }
 
     def main(args: Array[String]) = {
+
+        val dbc = Redis("localhost", 6379)
+        //reset_db(dbc)
         //redis_tst()
 
         val crawler = new Crawler()
         val major_url = "http://habrahabr.ru/"
         val search_depth = 3
-        val dbc = Redis("localhost", 6379)
-        val pages = crawler.grabHost(major_url, dbc, search_depth)
-        println("Index size: " + pages.size)
+
+        //val pages =
+        crawler.grabHost(major_url, dbc, search_depth)
+        //println("Index size: " + pages.size)
         println("Ready to search")
         val se = new SearchEngine()
         var ok = true
@@ -52,8 +62,8 @@ object Main {
             }
             ok = ln != null
             if (ok) {
-                se.search(ln, pages).foreach((x: StoredPage) => println(x.URL))
-
+                //se.search(ln, pages).foreach((x: StoredPage) => println(x.URL))
+                se.search(ln, dbc).foreach((x: String) => println(x))
             }
         }
         //search("java", pages).foreach((x:StoredPage) => println(x.URL))

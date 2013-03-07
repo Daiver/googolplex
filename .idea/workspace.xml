@@ -4,14 +4,15 @@
     <list default="true" id="261862b2-95eb-4a12-b997-206f1ab95143" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Crawler.scala" afterPath="$PROJECT_DIR$/src/Crawler.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.scala" afterPath="$PROJECT_DIR$/src/Main.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SearchEngine.scala" afterPath="$PROJECT_DIR$/src/SearchEngine.scala" />
     </list>
     <ignored path="googolplex.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362672917543" ignored="false" />
-    <file path="/Main.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362672969509" ignored="false" />
-    <file path="/Crawler.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362586109836" ignored="false" />
+    <file path="/Main.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362678747574" ignored="false" />
+    <file path="/Crawler.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362676769187" ignored="false" />
     <file path="/a.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362220883993" ignored="false" />
+    <file path="/SearchEngine.scala" changelist="261862b2-95eb-4a12-b997-206f1ab95143" time="1362679606397" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,10 +71,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Main.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="8" selection-start="849" selection-end="849" vertical-scroll-proportion="0.49503312">
+            <state line="65" column="67" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -82,17 +83,19 @@
       <file leaf-file-name="Crawler.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Crawler.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="24" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0">
+            <state line="4" column="30" selection-start="108" selection-end="139" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchEngine.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SearchEngine.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SearchEngine.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="94" selection-start="1242" selection-end="1242" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="36" column="44" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.43670887">
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -115,9 +118,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/SearchEngine.scala" />
         <option value="$PROJECT_DIR$/src/Crawler.scala" />
         <option value="$PROJECT_DIR$/src/Main.scala" />
+        <option value="$PROJECT_DIR$/src/SearchEngine.scala" />
       </list>
     </option>
   </component>
@@ -386,7 +389,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="19" width="1366" height="749" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -397,16 +400,16 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32857144" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.7920635" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20763358" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.7936508" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20634921" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32857144" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -545,27 +548,31 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/libraries/redis-scala/target/scala-2.9.0.final/redis-scala_2.9.0-0.1.6.jar!/ru/kolyvan/redis/RedisOp.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="6" selection-start="898" selection-end="898" vertical-scroll-proportion="0.026501767" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SearchEngine.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="94" selection-start="1242" selection-end="1242" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Crawler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="24" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0">
+        <state line="10" column="6" selection-start="898" selection-end="898" vertical-scroll-proportion="0.026501767">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="8" selection-start="849" selection-end="849" vertical-scroll-proportion="0.49503312">
+        <state line="65" column="67" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Crawler.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="30" selection-start="108" selection-end="139" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SearchEngine.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="44" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.43670887">
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
