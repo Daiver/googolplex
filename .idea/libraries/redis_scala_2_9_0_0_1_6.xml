@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="redis-scala_2.9.0-0.1.6">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libraries/redis-scala/target/scala-2.9.0.final/redis-scala_2.9.0-0.1.6.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
