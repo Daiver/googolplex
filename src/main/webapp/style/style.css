@@ -1,0 +1,24 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  font-family: tahoma;  
+}
+
+body{
+  background: #eee;
+}
+
+#topMenu{
+  width: 100%;
+  height: 46px;
+  margin-bottom: 10px;
+  background: #222;
+  background: -moz-linear-gradient(top, #333, #000);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333), color-stop(100%, #000));
+  background: -webkit-linear-gradient(top, #333, #000);
+  background: -o-linear-gradient(top, #333, #000);
+  background: -ms-linear-gradient(top, #333, #000);
+  background: linear-gradient(top, #333, #000);
+  border-bottom: 1px solid #fff;
+}
+
