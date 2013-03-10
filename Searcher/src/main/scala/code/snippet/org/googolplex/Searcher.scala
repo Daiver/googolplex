@@ -1,4 +1,4 @@
-package org.plex.googolplex
+package org.googolplex
 package snippet
 
 import net.liftweb.util._
