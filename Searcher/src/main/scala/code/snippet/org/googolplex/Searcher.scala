@@ -18,7 +18,7 @@ class Searcher {
       val redis = Redis("localhost", 6379)
       var i = 0
 
-      val res = searchEngine.search(query, redis).reverse.map(x => <li><a target="_new" href={x} class="res">{x}</a></li>)
+      val res = searchEngine.search(query, redis).reverse.map(x => <li><a target="_new" href={x._1} class="res">{x._2}</a></li>)
 
       <span>Total: {res.length}</span> :: res
   }
