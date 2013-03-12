@@ -1,7 +1,15 @@
 <div class="lift:surround?with=default;at=content content-wrapper">
     <head_merge>
-        <title>GoogolPlex</title>
+      <title>GoogolPlex</title>
         <link rel="stylesheet" type="text/css" href="style/search-style.css"/>
+        <link rel="stylesheet" type="text/css" href="style/results-style.css"/>
     </head_merge>
-    <div id="results" class="lift:searcher.search"/>
+    <form name="search" method="GET" action="search">
+        <input name="r"  type="text" class="searchelt searchbox"/><input type="submit" class="searchelt searchbutton"
+                                                                         value="↪"/>
+    </form>
+    <br />
+    <ol>
+      <div id="results" class="lift:searcher.search"/>
+    </ol>
 </div>

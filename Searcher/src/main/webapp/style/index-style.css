@@ -11,32 +11,3 @@
   background: url("SearchFromBackground.png ") no-repeat;
   padding-top: 175px;
 }
-
-.searchelt{
-  height: 40px;
-  padding: 0px;
-  margin: 0px;
-  font-size: 20px;
-}
-
-.searchbox{
-  width: 500px;
-  border: 1px solid #999;
-}
-
-.searchbox:hover, .searchbox:active{
-  border: 1px solid #666;
-}
-
-.searchbutton{
-  width: 40px;
-  color: #fff;
-  background: #e00;
-  background: -moz-linear-gradient(top, #e00, #900);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333), color-stop(100%, #900));
-  background: -webkit-linear-gradient(top, #e00, #900);
-  background: -o-linear-gradient(top, #e00, #900);
-  background: -ms-linear-gradient(top, #e00, #900);
-  background: linear-gradient(top, #e00, #900);
-  border: 1px solid #800;
-}

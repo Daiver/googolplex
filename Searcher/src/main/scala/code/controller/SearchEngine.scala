@@ -1,6 +1,10 @@
+package org.googolplex
+
 import collection.mutable
 import java.util.StringTokenizer
-
+import ru.kolyvan.redis
+import ru.kolyvan.redis.Redis
+import ru.kolyvan.redis.Conv._
 
 class SearchEngine {
 

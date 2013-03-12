@@ -1,3 +1,5 @@
+import ru.kolyvan.redis.Redis
+import ru.kolyvan.redis.Conv._
 
 object Main {
 

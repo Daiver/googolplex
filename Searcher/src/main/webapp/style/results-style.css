@@ -1,0 +1,13 @@
+.content-wrapper {
+  width: 1000px;
+  margin-left: -500px;
+  margin-top: 64px;
+  position: absolute;
+  left: 50%;
+  padding: 0px;
+}
+
+.res{
+  border-bottom: 1px solid #666;
+  display: block;
+}

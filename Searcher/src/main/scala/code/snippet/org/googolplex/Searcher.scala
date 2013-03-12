@@ -1,16 +1,27 @@
 package org.googolplex
 package snippet
 
+import org.googolplex.SearchEngine
 import net.liftweb.util._
 import Helpers._
 import net.liftweb.http.S
+import ru.kolyvan.redis.Redis
 
 class Searcher {
 
-  val request = S.param("r") openOr ""
+  val query = S.param("r") openOr ""
 
-  def results = if(request == "") "No request" else "No results for " + request
+  def search = "#results" #> results(query)
 
-  def search = "#results" #> results
+  def results(query: String) = {
+      val searchEngine = new SearchEngine
+      val redis = Redis("localhost", 6379)
+      var i = 0
+
+      val res = searchEngine.search(query, redis).reverse.map(x => <li><a href={x} class="res">{x}</a></li>)
+
+      <span>Total: {res.length}</span> :: res
+  }
+
 }
 

@@ -4,6 +4,8 @@ import java.net.URL
 import java.security.MessageDigest
 import java.util.regex.Pattern
 import java.util.{StringTokenizer, Date}
+import ru.kolyvan.redis.Redis
+import ru.kolyvan.redis.Conv._
 
 class StoredPage(val url: String,
                  val pageHtml: String,
@@ -22,6 +24,7 @@ class StoredPage(val url: String,
         databaseClient incr "pages:globalindex"
         res
       }
+
     }
 
     println("index:" + index)
@@ -45,7 +48,7 @@ class Crawler {
       MessageDigest.getInstance("MD5").digest(s.getBytes)
   }
 
-  val hyperLinkPattern = Pattern compile "http:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+"
+  val hyperLinkPattern = Pattern.compile("""http:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+""")
 
   def openResourceInputStream(url: String) = {
     val connection = new URL(url).openConnection()
@@ -83,7 +86,7 @@ class Crawler {
       //if (!pages.contains(url)) {
       if (databaseClient.keys("pages:*:URL:" + url).length == 0) {
         val page = grabUrl(url)
-        println("walking page url " + page.URL + "  num of hrefs " + page.links.length)
+        println("walking page url " + page.url + "  num of hrefs " + page.links.length)
         page.saveIntoDB(databaseClient)
         //pages.put(url, page)
         if (depth < maxDepth)
