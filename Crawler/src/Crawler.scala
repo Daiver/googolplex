@@ -19,24 +19,11 @@ class StoredPage(val url: String,
 
   def saveIntoDB(databaseClient: Redis) {
 
-    /*val index = {
-      val existingKeys = databaseClient.keys("pages:url:" + url)
-      if (existingKeys.length > 0) existingKeys(0).split(":")(1)
-      else {
-        val res = S(databaseClient get "pages:globalindex").get
-        databaseClient incr "pages:globalindex"
-        res
-      }
-
-    }*/
-
-    if (!databaseClient.exists("pages:URL")) {
+    if (!(databaseClient exists "pages:URL")) {
         println(S(databaseClient get "pages:globalindex").get)
         databaseClient incr "pages:globalindex"
     }
 
-    //println("index:" + index)
-    //val pageKey = "pages:" + index + ":"
     val pageKey = "pages:"
     println(pageKey + "URL:" + url)
     databaseClient.set(pageKey + "URL:" + url, B(grabDate.toString))
@@ -47,7 +34,6 @@ class StoredPage(val url: String,
           databaseClient.set(pageKey + "URL:" + url + ":KW:" + k, B(v))
       }
     }
-    //databaseClient.set(pageKey + "URL:" + url + ":KW:" + x._1, B(x._2))
   }
 }
 
@@ -118,15 +104,11 @@ class Crawler {
   }
 
   def grabHost(majorURL: String, databaseClient: Redis, maxDepth: Int = 1) {
-    //var pages = scala.collection.mutable.HashMap[String, StoredPage]()
     def walker(url: String, depth: Int) {
-      //if (!pages.contains(url)) {
-      //if (databaseClient.keys("pages:*:URL:" + url).length == 0) {
-      if (!databaseClient.exists("pages:URL" + url)) {
+      if (!(databaseClient exists ("pages:URL:" + url))) {
         val page = grabUrl(url)
         println("walking page url " + page.url + "  num of hrefs " + page.links.length)
         page.saveIntoDB(databaseClient)
-        //pages.put(url, page)
         if (depth < maxDepth)
           page.links.filter(_ startsWith majorURL).foreach((x: String) => {
             try {

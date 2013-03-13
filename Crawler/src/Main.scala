@@ -15,7 +15,7 @@ object Main {
     val databaseClient = Redis("localhost", 6379)
     resetDatabase(databaseClient)
     val majorUrl = "http://habrahabr.ru/"
-    val searchDepth = 1
+    val searchDepth = 4
     val crawler = new Crawler()
     crawler.grabHost(majorUrl, databaseClient, searchDepth)
   }
