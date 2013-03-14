@@ -2,11 +2,9 @@ import collection.mutable
 import io.Source
 import java.net.URL
 import java.security.MessageDigest
-import java.util
 import java.util.regex.Pattern
 import java.util.{StringTokenizer, Date}
-import ru.kolyvan.redis.Redis
-import ru.kolyvan.redis.Conv._
+import com.redis._
 
 class StoredPage(val url: String,
                  val title: String,
@@ -17,21 +15,21 @@ class StoredPage(val url: String,
                  val hash: Array[Byte],
                  val grabDate: Date) {
 
-  def saveIntoDB(databaseClient: Redis) {
+  def saveIntoDB(databaseClient: RedisClient) {
 
     if (!(databaseClient exists "pages:URL")) {
-        println(S(databaseClient get "pages:globalindex").get)
-        databaseClient incr "pages:globalindex"
+      println((databaseClient get "pages:globalindex").get)
+      databaseClient incr "pages:globalindex"
     }
 
     val pageKey = "pages:"
     println(pageKey + "URL:" + url)
-    databaseClient.set(pageKey + "URL:" + url, B(grabDate.toString))
-    databaseClient.set(pageKey + "URL:" + url + ":title", B(this.title))
+    databaseClient.set(pageKey + "URL:" + url, grabDate.toString)
+    databaseClient.set(pageKey + "URL:" + url + ":title", title)
     keyWords foreach {
       case (k, v) => {
-          databaseClient.zadd("pages:KW:" + k, v, B(url))
-          databaseClient.set(pageKey + "URL:" + url + ":KW:" + k, B(v))
+        databaseClient.zadd("pages:KW:" + k, v, url)
+        databaseClient.set(pageKey + "URL:" + url + ":KW:" + k, v)
       }
     }
   }
@@ -47,7 +45,7 @@ class Crawler {
       MessageDigest.getInstance("MD5").digest(s.getBytes)
   }
 
-  val hyperLinkPattern = Pattern.compile("""http:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+""")
+  val hyperLinkPattern = Pattern.compile( """http:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+""")
   val hardSplitters = List("\n", "\t", " ")
 
   def openResourceInputStream(url: String) = {
@@ -77,23 +75,23 @@ class Crawler {
     while (tokens.hasMoreTokens) {
       val word = tokens.nextToken()
 
-        if (word.equals("<") && !inTag) {
-            inTag = true
-            if (tokens.hasMoreTokens()) curTag = tokens.nextToken()
-            readTitle = false
+      if (word.equals("<") && !inTag) {
+        inTag = true
+        if (tokens.hasMoreTokens()) curTag = tokens.nextToken()
+        readTitle = false
+      }
+      if (readTitle) {
+        title += word
+      }
+      if (word.equals(">") && inTag) {
+        inTag = false
+        if (curTag equals "title") {
+          readTitle = true
         }
-        if (readTitle) {
-            title += word
-        }
-        if (word.equals(">") && inTag) {
-            inTag = false
-            if (curTag equals "title") {
-                readTitle = true
-            }
-        }
+      }
 
-        if (!(keyWords contains word)) keyWords put(word, 0)
-        keyWords(word) += 1
+      if (!(keyWords contains word)) keyWords put(word, 0)
+      keyWords(word) += 1
 
     }
 
@@ -103,9 +101,9 @@ class Crawler {
     new StoredPage(url, title, "", keyWords, hyperLinks, images, CrawlerSupport.md5(rawPage), new Date)
   }
 
-  def grabHost(majorURL: String, databaseClient: Redis, maxDepth: Int = 1) {
+  def grabHost(majorURL: String, databaseClient: RedisClient, maxDepth: Int = 1) {
     def walker(url: String, depth: Int) {
-      if (!(databaseClient exists ("pages:URL:" + url))) {
+      if (!(databaseClient. exists ("pages:URL:" + url))) {
         val page = grabUrl(url)
         println("walking page url " + page.url + "  num of hrefs " + page.links.length)
         page.saveIntoDB(databaseClient)
