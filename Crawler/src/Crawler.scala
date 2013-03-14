@@ -1,3 +1,4 @@
+import collection.immutable.HashMap
 import collection.mutable
 import io.Source
 import java.net.URL
@@ -16,21 +17,23 @@ class StoredPage(val url: String,
                  val grabDate: Date) {
 
   def saveIntoDB(databaseClient: RedisClient) {
-
-    if (!(databaseClient exists "pages:URL")) {
-      println((databaseClient get "pages:globalindex").get)
-      databaseClient incr "pages:globalindex"
-    }
-
-    val pageKey = "pages:"
-    println(pageKey + "URL:" + url)
-    databaseClient.set(pageKey + "URL:" + url, grabDate.toString)
-    databaseClient.set(pageKey + "URL:" + url + ":title", title)
-    keyWords foreach {
-      case (k, v) => {
-        databaseClient.zadd("pages:KW:" + k, v, url)
-        databaseClient.set(pageKey + "URL:" + url + ":KW:" + k, v)
+    val pageKey = "page:" + url
+    val pageInfo =
+      if (!(databaseClient exists pageKey)) {
+        val pageIndex = databaseClient incr "pages:globalindex"
+        HashMap("title" -> title, "id" -> pageIndex, "hash" -> hash, "date" -> grabDate)
       }
+      else {
+        HashMap("title" -> title, "hash" -> hash, "date" -> grabDate)
+      }
+
+    println(pageKey)
+
+    databaseClient.hmset(pageKey, pageInfo)
+
+    keyWords foreach {
+      case (word, count) =>
+        databaseClient.zadd("page:keywords:" + word, count, url)
     }
   }
 }
@@ -103,7 +106,7 @@ class Crawler {
 
   def grabHost(majorURL: String, databaseClient: RedisClient, maxDepth: Int = 1) {
     def walker(url: String, depth: Int) {
-      if (!(databaseClient. exists ("pages:URL:" + url))) {
+      if (!(databaseClient exists ("page:" + url))) {
         val page = grabUrl(url)
         println("walking page url " + page.url + "  num of hrefs " + page.links.length)
         page.saveIntoDB(databaseClient)
@@ -121,6 +124,6 @@ class Crawler {
     }
 
     walker(majorURL, 0)
-    //pages
+    println("Number of crawled pages: " + databaseClient get "pages:globalindex")
   }
 }
