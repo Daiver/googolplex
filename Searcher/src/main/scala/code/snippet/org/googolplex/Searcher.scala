@@ -5,7 +5,7 @@ import org.googolplex.SearchEngine
 import net.liftweb.util._
 import Helpers._
 import net.liftweb.http.S
-import ru.kolyvan.redis.Redis
+import com.redis.RedisClient
 
 class Searcher {
 
@@ -14,13 +14,22 @@ class Searcher {
   def search = "#results" #> results(query)
 
   def results(query: String) = {
-      val searchEngine = new SearchEngine
-      val redis = Redis("localhost", 6379)
-      var i = 0
+    val searchEngine = new SearchEngine
+    val redis = new RedisClient("192.168.56.100", 6379)
+    var i = 0
 
-      val res = searchEngine.search(query, redis).reverse.map(x => <li><a target="_new" href={x._1} class="res">{x._2}</a></li>)
+    val res = searchEngine.search(query, redis).map {
+      case (url, title) =>
+        <li>
+          <a target="_new" href={url} class="res">
+            {title}
+          </a>
+        </li>
+    }
 
-      <span>Total: {res.length}</span> :: res
+    <span>Total:
+      {res.length}
+    </span> :: res
   }
 
 }
