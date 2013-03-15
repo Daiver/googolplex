@@ -33,7 +33,7 @@ class StoredPage(val url: String,
 
     keyWords foreach {
       case (word, count) =>
-        databaseClient.zadd("page:keywords:" + word, count, url)
+        databaseClient.zadd("page:keyword:" + word, count, url)
     }
   }
 }
@@ -78,15 +78,15 @@ class Crawler {
     while (tokens.hasMoreTokens) {
       val word = tokens.nextToken()
 
-      if (word.equals("<") && !inTag) {
+      if ((word equals "<") && !inTag) {
         inTag = true
-        if (tokens.hasMoreTokens()) curTag = tokens.nextToken()
+        if (tokens.hasMoreTokens) curTag = tokens.nextToken()
         readTitle = false
       }
       if (readTitle) {
         title += word
       }
-      if (word.equals(">") && inTag) {
+      if ((word equals ">") && inTag) {
         inTag = false
         if (curTag equals "title") {
           readTitle = true
@@ -124,6 +124,6 @@ class Crawler {
     }
 
     walker(majorURL, 0)
-    println("Number of crawled pages: " + databaseClient get "pages:globalindex")
+    println("Number of crawled pages: " + (databaseClient get "pages:globalindex").get)
   }
 }

@@ -11,12 +11,14 @@ object Main {
   }
 
   def main(args: Array[String]) {
-    val databaseClient = new RedisClient("192.168.56.100", 6379)
+    val databaseClient = new RedisClient("localhost", 6379)
     resetDatabase(databaseClient)
     val majorUrl = "http://habrahabr.ru/"
     val searchDepth = 4
     val crawler = new Crawler()
+    val startTime = System.currentTimeMillis
     crawler.grabHost(majorUrl, databaseClient, searchDepth)
+    println("Time [ms]: " + (System.currentTimeMillis - startTime))
   }
 
 }
