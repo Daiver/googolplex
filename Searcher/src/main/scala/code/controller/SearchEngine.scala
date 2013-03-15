@@ -17,17 +17,16 @@ class SearchEngine {
     }
 
     val results = new mutable.LinkedHashMap[String, Double]()
-    keyWords.foreach((x: String) => {
-      databaseClient.zrangeWithScore("pages:KW:" + x, 0, -1).get.foreach {
+    keyWords.foreach((word: String) => {
+      databaseClient.zrangeWithScore("page:keyword:" + word, 0, -1).get.foreach {
         case (url, score) =>
           if (results contains url) results(url) += score
           else results += ((url, score))
       }
-
     })
 
-    results.toList.sortBy(_._2).map {
-      case (url: String, score: Double) => (url, databaseClient.get("pages:URL:" + url + ":title").get.capitalize)
+    results.toList.sortBy(_._2)(Ordering.fromLessThan(_ > _)).map {
+      case (url: String, score: Double) => (url, databaseClient.hget("page:" + url, "title").get.capitalize)
     }
   }
 
