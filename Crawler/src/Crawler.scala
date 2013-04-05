@@ -1,3 +1,5 @@
+package org.googolplex.crawler
+
 import collection.immutable.HashMap
 import collection.mutable
 import io.Source
@@ -16,18 +18,17 @@ class StoredPage(val url: String,
                  val hash: Array[Byte],
                  val grabDate: Date) {
 
-  def saveIntoDB(databaseClient: RedisClient) = {
+  def saveIntoDB(databaseClient: RedisClient) {
     val pageKey = "page:" + url
+    println(pageKey)
     val pageInfo =
       if (!(databaseClient exists pageKey)) {
-        val pageIndex = databaseClient incr "pages:globalindex"
+        val pageIndex = databaseClient.incr("pages:globalindex")
         HashMap("title" -> title, "id" -> pageIndex, "hash" -> hash, "date" -> grabDate)
       }
       else {
         HashMap("title" -> title, "hash" -> hash, "date" -> grabDate)
       }
-
-    println(pageKey)
 
     databaseClient.hmset(pageKey, pageInfo)
 
@@ -35,12 +36,11 @@ class StoredPage(val url: String,
       case (word, count) =>
         databaseClient.zadd("page:keyword:" + word, count, url)
     }
-
-    pageKey
   }
 }
 
-class Crawler {
+
+class Crawler(imageDownloader: ImageDownloader) {
 
   val md5 = MessageDigest.getInstance("MD5")
   val hyperLinkPattern = Pattern.compile( """http:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+""")
@@ -102,15 +102,9 @@ class Crawler {
 
   def grabHost(majorURL: String, databaseClient: RedisClient, maxDepth: Int = 1) {
 
-    def saveImages(page: StoredPage, pageId: String) = {
-      page.images.foreach((x: String) => {
-        try {
-          val hash = LooksLike.hashImage(x)
-          //databaseClient.push
-        } catch {
-          case e: Exception => println(e)
-        }
-      })
+    def saveImages(page: StoredPage) {
+      page.images.foreach((imageUrl: String) =>
+        imageDownloader !! ProcessImage(imageUrl, page.url, page.keyWords)
     }
 
     def walker(url: String, depth: Int) {
@@ -118,7 +112,7 @@ class Crawler {
         val page = grabUrl(url)
         val pageId = page.saveIntoDB(databaseClient)
         println("walking page url " + page.url + "  number of links" + page.links.length)
-        saveImages(page, pageId)
+        saveImages(page)
         if (depth < maxDepth)
           page.links.filter(_ startsWith majorURL).foreach((x: String) => {
             try {
@@ -136,41 +130,4 @@ class Crawler {
     walker(majorURL, 0)
     println("Number of crawled pages: " + (databaseClient get "pages:globalindex").get)
   }
-}
-
-object LooksLike {
-
-  import java.awt.image.BufferedImage
-  import javax.imageio.ImageIO
-
-  def hashImage(imageUrl: String): BigInt = {
-    val image = ImageIO.read(f)
-    val hash = hashImage(image)
-  }
-
-  def hashImage(image: BufferedImage): BigInt = {
-    def foldPixels(image: BufferedImage, f: (BigInt, Int) => BigInt) = {
-      val w = image.getWidth
-      val h = image.getHeight
-      def fold(i: Int, j: Int, acc: BigInt): BigInt =
-        if (i == h) acc
-        else if (j == w) fold(i + 1, 0, acc)
-        else fold(i, j + 1, f(acc, image.getRGB(i, j)))
-
-      fold(0, 0, 0)
-    }
-    val normalizedImage = {
-      val w = 8
-      val h = w
-      val scaledGrayImage = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY)
-      scaledGrayImage.createGraphics().drawImage(image, 0, 0, w, h, null)
-      scaledGrayImage
-    }
-    val imageSize = normalizedImage.getWidth * normalizedImage.getHeight
-    val averagePixelColor = foldPixels(normalizedImage, (s, c) => s + c) / imageSize
-    def hash(h: BigInt, c: Int) = (h << 1) + (if (c < averagePixelColor) 0 else 1)
-
-    foldPixels(normalizedImage, hash)
-  }
-
 }

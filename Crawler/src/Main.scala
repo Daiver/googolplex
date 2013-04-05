@@ -1,24 +1,40 @@
 import com.redis._
+import org.googolplex.crawler.{ImageDownloader, Crawler}
 
 object Main {
 
-  def resetDatabase(databaseClient: RedisClient) {
-    println("Starting flush")
-    databaseClient.flushdb
-    databaseClient set("pages:globalindex", 0)
-    databaseClient incr "pages:globalindex"
-    println("Finish flushing")
-  }
-
   def main(args: Array[String]) {
-    val databaseClient = new RedisClient("localhost", 6379)
-    resetDatabase(databaseClient)
+
+    def openConnection(baseId: Int) = {
+      val databaseClient = new RedisClient("localhost", 6379)
+      databaseClient.select(baseId)
+      databaseClient
+    }
+
+    def resetDatabase(databaseClient:RedisClient, name: String) = {
+      databaseClient.flushdb
+      databaseClient.set(name + ":globalindex", 0)
+      databaseClient
+    }
+
+    val pagesDatabaseClient = openConnection(0)
+    resetDatabase(pagesDatabaseClient, "pages")
+    val imagesDatabaseClient = openConnection(1)
+    resetDatabase(imagesDatabaseClient, "images")
+
+
     val majorUrl = "http://habrahabr.ru/"
     val searchDepth = 4
-    val crawler = new Crawler()
+    val imageDownloader = new ImageDownloader(pagesDatabaseClient)
+    val crawler = new Crawler(imageDownloader)
     val startTime = System.currentTimeMillis
-    crawler.grabHost(majorUrl, databaseClient, searchDepth)
+
+    imageDownloader.start()
+    crawler.grabHost(majorUrl, pagesDatabaseClient, searchDepth)
+
     println("Time [ms]: " + (System.currentTimeMillis - startTime))
+
+
   }
 
 }

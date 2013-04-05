@@ -7,19 +7,21 @@ import actors.Actor
 import collection.immutable.HashMap
 import java.util.Date
 import com.redis.RedisClient
+import collection.mutable
+
+
+abstract class ImageDownloaderMessage
+case class Stop()
+case class ProcessImage(imageUrl: String, pageUrl: String, keywords: mutable.HashMap[String, Int])
+
 
 class ImageDownloader(databaseClient: RedisClient) extends Actor {
-
-  abstract class ImageDownloaderMessage
-  case class Exit()
-  case class Process(imageUrl: String, pageUrl: String, keywords: HashMap[String, Int])
-
   def act() {
     var isRunning = true
     while (isRunning)
       receive {
-        case Exit => isRunning = false
-        case Process(imageUrl, pageUrl, keywords) => {
+        case Stop => isRunning = false
+        case ProcessImage(imageUrl, pageUrl, keywords) => {
           val grabDate = new Date
           val imageKey = "image:" + imageUrl
 
