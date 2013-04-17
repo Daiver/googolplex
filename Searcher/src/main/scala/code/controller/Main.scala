@@ -12,7 +12,7 @@ object Main {
 
   def search(query: String) = {
     val searchEngine = new SearchEngine
-    val redisClient = new RedisClient("192.168.56.100", 6379)
+    val redisClient = new RedisClient("locslhost", 6379)
     searchEngine.search(query, redisClient)
   }
 
