@@ -30,8 +30,7 @@ class Searcher {
     val limit = 20
     val startPage = startWith/offset
     val leftindex = if (startPage - limit / 2 > 0) startPage - limit / 2 else 0
-    val res = for( i <- List.range(leftindex, leftindex + limit)) yield <a href={"/search?r=%s&start=%d&offset=%d".format(query, (leftindex+i)*offset, offset)} >{i + 1} </a>
-    res
+    for( i <- List.range(leftindex, leftindex + limit)) yield <a href={"/search?r=%s&start=%d&offset=%d".format(query, i*offset, offset)} >{i + 1} </a>
   }
 
   def search = "#results" #> results(query, startWith, offset)
